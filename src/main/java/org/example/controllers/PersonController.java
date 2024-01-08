@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/people")
 public class PersonController {
 
     PersonDAO personDAO;
@@ -17,27 +18,48 @@ public class PersonController {
         this.personDAO = personDAO;
     }
 
-    @GetMapping("/people")
+    @GetMapping
     public String getPeoplePage(Model model) {
         model.addAttribute("people", personDAO.getPeople());
         return "/person/people";
     }
 
-    @GetMapping("/people/{id}")
+    @GetMapping("/{id}")
     public String getPersonPage(Model model, @PathVariable("id") int id) {
         model.addAttribute("person", personDAO.getPersonById(id));
         return "/person/person";
     }
 
-    @GetMapping("/people/add")
+    @GetMapping("/add")
     public String getAddNewPersonPage(Model model) {
         model.addAttribute("person", new Person());
         return "/person/addNewPerson";
     }
 
-    @PostMapping("/people")
+    @PostMapping
     public String postNewPersonIntoPeoplePage(@ModelAttribute("person") Person person) {
         personDAO.addNewPerson(person);
+        return "redirect:/people";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String getEditPersonPage(@PathVariable("id") int id, Model model) {
+
+        model.addAttribute(personDAO.getPersonById(id));
+
+        return "/person/editPerson";
+    }
+
+    @PatchMapping("/{id}")
+    public String updatePersonById(@PathVariable("id") int id, @ModelAttribute Person person) {
+        personDAO.updatePersonById(id, person);
+        return "redirect:/people";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deletePersonById(@PathVariable("id") int id) {
+        personDAO.deletePersonById(id);
+
         return "redirect:/people";
     }
 }

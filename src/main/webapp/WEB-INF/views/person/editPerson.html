@@ -2,20 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>AddNewPerson</title>
+    <title>EditPerson</title>
 </head>
 <body>
 
-<form th:method="post" th:action="@{/people}" th:object="${person}">
+
+<form th:method="PATCH" th:object="${person}" th:action="@{/people/{id}(id=${person.getId()})}">
 
     <label for="name">Enter name: </label>
     <input type="text" th:field="${person.name}" id="name"/>
 
     <label for="surname">Enter surname: </label>
-    <input type="text" th:field="*{surName}" id="surname"/>
-    <br/>
+    <input type="text" th:field="${person.surName}" id="surname"/>
 
-    <input type="submit" value="Create!">
+    <input type="submit" value="Edit!"/>
 </form>
 
 </body>
