@@ -27,4 +27,9 @@ public class PersonDAO {
         return people;
     }
 
+    public void addNewPerson(Person person) {
+        person.setId(++PEOPLE_COUNTER);
+        people.add(person);
+    }
+
 }
