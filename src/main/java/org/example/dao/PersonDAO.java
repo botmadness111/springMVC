@@ -1,8 +1,8 @@
 package org.example.dao;
 
-import org.example.dao.Mapper.PersonMapper;
 import org.example.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -21,12 +21,12 @@ public class PersonDAO {
     }
 
     public Person getPersonById(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id}, new PersonMapper()).stream().findAny().orElse(null);
+        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
 
     }
 
     public List<Person> getPeople() {
-        return jdbcTemplate.query("SELECT * FROM Person", new PersonMapper());
+        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
     }
 
     public void addNewPerson(Person person) {
