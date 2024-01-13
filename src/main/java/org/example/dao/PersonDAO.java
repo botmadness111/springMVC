@@ -2,6 +2,7 @@ package org.example.dao;
 
 import org.example.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -41,4 +42,57 @@ public class PersonDAO {
         jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    /////////Тест Операция одним Пакетом (с 1000 данными) VS 1000 запрос SQL///////////
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    public List<Person> create1000person() {
+        List<Person> people = new ArrayList<>();
+
+        for (int i = 0; i < 1000; i++) {
+            people.add(new Person(i, "Person " + i, "Person " + i, "Person " + i + "@mail.ru", 19));
+        }
+
+        return people;
+    }
+
+    public void test1000query() {
+        List<Person> people = create1000person();
+
+        long startTime = System.currentTimeMillis();
+
+        for (Person person : people) {
+            jdbcTemplate.update("INSERT INTO Person VALUES (?, ?, ? ,?)", person.getId(), person.getName(), person.getAge(), person.getMail());
+        }
+
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("Time is: " + (endTime - startTime));
+
+    }
+
+    public void test1queryUsingBatches() {
+        List<Person> people = create1000person();
+
+        long startTime = System.currentTimeMillis();
+
+        jdbcTemplate.batchUpdate("INSERT INTO Person VALUES (?, ?, ? ,?)", new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                preparedStatement.setInt(1, people.get(i).getId());
+                preparedStatement.setString(2, people.get(i).getName());
+                preparedStatement.setInt(3, people.get(i).getAge());
+                preparedStatement.setString(4, people.get(i).getMail());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return people.size();
+            }
+        });
+
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("Time is: " + (endTime - startTime));
+    }
 }

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Without Batch</title>
+</head>
+<body>
+
+<div th:each="person: ${people}">
+    <p th:text="${person.getName()}">some text</p>
+</div>
+
+</body>
+</html>
