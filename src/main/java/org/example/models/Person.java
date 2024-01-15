@@ -1,9 +1,6 @@
 package org.example.models;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class Person {
     private int id;
@@ -15,13 +12,16 @@ public class Person {
     private Integer age;
     @Email(message = "email should be valid")
     private String mail;
+    @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}", message = "Address should be in this format: Country, City, post numbers (6 digits)")
+    private String address;
 
-    public Person(int id, String name, String surName, String mail, Integer age) {
+    public Person(int id, String name, String surName, String mail, Integer age, String address) {
         this.id = id;
         this.name = name;
         this.surName = surName;
         this.mail = mail;
         this.age = age;
+        this.address = address;
     }
 
     public Person() {
@@ -66,5 +66,13 @@ public class Person {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -67,7 +67,7 @@ public class PersonController {
         personValidator.validate(person, bindingResult);
 
         if (bindingResult.hasErrors()){
-            return "redirect:/people/edit/{id}";
+            return "/person/editPerson";
         }
 
         personDAO.updatePersonById(id, person);

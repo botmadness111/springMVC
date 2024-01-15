@@ -11,15 +11,28 @@
 
     <label for="name">Enter name: </label>
     <input type="text" th:field="${person.name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="${person.name}">Some Error Text</div>
+    <br/>
 
     <label for="surname">Enter surname: </label>
     <input type="text" th:field="${person.surName}" id="surname"/>
+    <div style="color:red" th:if="${#fields.hasErrors('surName')}" th:errors="${person.surName}">Some Error Text</div>
+    <br/>
 
     <label for="mail">Enter mail: </label>
     <input type="text" th:field="${person.mail}" id="mail"/>
+    <div style="color:red" th:if="${#fields.hasErrors('mail')}" th:errors="${person.mail}">Some Error Text</div>
+    <br/>
 
     <label for="age">Enter age: </label>
     <input type="text" th:field="${person.age}" id="age"/>
+    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="${person.age}">Some Error Text</div>
+    <br/>
+
+    <label for="address">Enter address: </label>
+    <input type="text" th:field="${person.address}" id="address"/>
+    <div style="color:red" th:if="${#fields.hasErrors('address')}" th:errors="${person.address}">Some Error Text</div>
+    <br/>
 
     <input type="submit" value="Edit!"/>
 </form>
