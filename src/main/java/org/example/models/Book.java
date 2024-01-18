@@ -17,6 +17,8 @@ public class Book {
     @NotNull(message = "Year of release should be not Empty")
     private Integer year_of_release;
 
+    private Integer id_human;
+
     public Book(String name, String author, Integer year_of_release) {
         this.name = name;
         this.author = author;
@@ -56,5 +58,13 @@ public class Book {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getId_human() {
+        return id_human;
+    }
+
+    public void setId_human(Integer id_human) {
+        this.id_human = id_human;
     }
 }

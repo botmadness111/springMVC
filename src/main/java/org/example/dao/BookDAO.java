@@ -1,7 +1,9 @@
 package org.example.dao;
 
 import org.example.models.Book;
+import org.example.models.Human;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -37,5 +39,21 @@ public class BookDAO {
 
     public Optional<Book> getBook(String name) {
         return jdbcTemplate.query("SELECT * FROM Book WHERE name=?", new Object[]{name}, new BeanPropertyRowMapper<>(Book.class)).stream().findAny();
+    }
+
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM Book WHERE id=?", id);
+    }
+
+    public void setHuman(int id_book, int id_human) {
+        jdbcTemplate.update("UPDATE Book SET id_human=? WHERE id=?", id_human, id_book);
+    }
+
+    public Optional<Human> getHuman(int id) {
+        return jdbcTemplate.query("SELECT * FROM Human WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Human.class)).stream().findAny();
+    }
+
+    public void unsetHuman(int id){
+        jdbcTemplate.update("UPDATE Book SET id_human=? WHERE id=?", null, id);
     }
 }
