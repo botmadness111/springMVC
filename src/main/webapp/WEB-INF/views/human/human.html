@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Human</title>
+</head>
+<body>
+
+<div th:object="${human}" th:text="${human.getFio() + ', ' + human.getYear_of_birth()}"></div>
+<div th:object="${human}" th:if="" th:text="${'Человек пока не взял ни одной книги'}"></div>
+
+</body>
+</html>
