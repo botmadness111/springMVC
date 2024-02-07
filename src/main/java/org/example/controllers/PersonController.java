@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/people")
 public class PersonController {
@@ -80,4 +82,30 @@ public class PersonController {
 
         return "redirect:/people";
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    //    /////////Тест Операция одним Пакетом (с 1000 данными) VS 1000 запрос SQL///////////
+    //    ///////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/chooseTest")
+    public String getChooseTestPage(){
+        return "/batchTest/chooseTest";
+    }
+
+    @GetMapping("/withoutBatch")
+    public String getWithoutBatchPage(Model model){
+        personDAO.test1000query(); //Загружаем в бд 1000 новых Person, используя 1000 запросов
+        model.addAttribute("people", personDAO.getPeople());
+
+        return "batchTest/withoutBatch";
+    }
+
+    @GetMapping("/withBatch")
+    public String getWithBatchPage(Model model){
+        personDAO.test1queryUsingBatches(); //Загружаем в бд 1000 новых Person, используя 1 пакет, в котором 1000 запросов
+        model.addAttribute("people", personDAO.getPeople());
+
+        return "batchTest/withBatch";
+    }
+
 }
