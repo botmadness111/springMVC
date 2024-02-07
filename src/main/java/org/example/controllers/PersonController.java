@@ -3,10 +3,12 @@ package org.example.controllers;
 import jakarta.validation.Valid;
 import org.example.dao.PersonDAO;
 import org.example.models.Person;
+import org.example.util.validators.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class PersonController {
 
     PersonDAO personDAO;
+    PersonValidator personValidator;
 
     @Autowired
-    public PersonController(PersonDAO personDAO) {
+    public PersonController(PersonDAO personDAO, PersonValidator personValidator) {
         this.personDAO = personDAO;
+        this.personValidator = personValidator;
     }
 
     @GetMapping
@@ -40,6 +44,8 @@ public class PersonController {
 
     @PostMapping
     public String postNewPersonIntoPeoplePage(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+        personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "/person/addNewPerson";
         }
@@ -57,7 +63,13 @@ public class PersonController {
     }
 
     @PatchMapping("/{id}")
-    public String updatePersonById(@PathVariable("id") int id, @ModelAttribute Person person) {
+    public String updatePersonById(@PathVariable("id") int id, @Valid @ModelAttribute Person person, BindingResult bindingResult) {
+        personValidator.validate(person, bindingResult);
+
+        if (bindingResult.hasErrors()){
+            return "/person/editPerson";
+        }
+
         personDAO.updatePersonById(id, person);
         return "redirect:/people";
     }

@@ -28,6 +28,11 @@
     <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="${person.age}">Some error text</div>
     <br/>
 
+    <label for="address">Enter address: </label>
+    <input type="text" th:field="${person.address}" id="address"/>
+    <div style="color: red" th:if="${#fields.hasErrors('address')}" th:errors="${person.address}">Some error text</div>
+    <br/>
+
     <input type="submit" value="Create!">
 </form>
 
