@@ -1,19 +1,28 @@
 package org.example.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
-@Component
+
+@Entity
+@Table(name = "book")
 public class Book {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+    @Column(name = "name")
     @NotEmpty(message = "Name should be not Empty")
     private String name;
 
+    @Column(name = "author")
     @NotEmpty(message = "Author should be not Empty")
     private String author;
 
+    @Column(name = "year_of_release")
     @NotNull(message = "Year of release should be not Empty")
     private Integer year_of_release;
 

@@ -18,13 +18,13 @@ public class BookController {
 
     BookDAO bookDAO;
     HumanDAO humanDAO;
-    BookValidator bookValidator;
+//    BookValidator bookValidator;
 
 
     @Autowired
     public BookController(BookDAO bookDAO, BookValidator bookValidator, HumanDAO humanDAO) {
         this.bookDAO = bookDAO;
-        this.bookValidator = bookValidator;
+//        this.bookValidator = bookValidator;
         this.humanDAO = humanDAO;
     }
 
@@ -45,7 +45,7 @@ public class BookController {
 
     @PostMapping("/add")
     public String addBook(@ModelAttribute @Valid Book book, BindingResult bindingResult) {
-        bookValidator.validate(book, bindingResult);
+//        bookValidator.validate(book, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "/book/addBook";
@@ -65,7 +65,7 @@ public class BookController {
 
     @PatchMapping("/edit/{id}")
     public String updateBook(@ModelAttribute @Valid Book book, BindingResult bindingResult, @PathVariable("id") int id) {
-        bookValidator.validate(book, bindingResult);
+//        bookValidator.validate(book, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "/book/editBook";

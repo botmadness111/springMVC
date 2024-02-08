@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class HumanController {
 
     HumanDAO humanDAO;
-    HumanValidator humanValidator;
+//    HumanValidator humanValidator;
 
     @Autowired
     public HumanController(HumanDAO humanDAO, HumanValidator humanValidator) {
         this.humanDAO = humanDAO;
-        this.humanValidator = humanValidator;
+        //this.humanValidator = humanValidator;
     }
 
     @GetMapping("/all")
@@ -39,7 +39,7 @@ public class HumanController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute("human") @Valid Human human, BindingResult bindingResult) {
-        humanValidator.validate(human, bindingResult);
+//        humanValidator.validate(human, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "/human/addHuman";
@@ -59,7 +59,7 @@ public class HumanController {
 
     @PatchMapping("/edit/{id}")
     public String update(@Valid @ModelAttribute Human human, BindingResult bindingResult, @PathVariable("id") Integer id) {
-        humanValidator.validate(human, bindingResult);
+//        humanValidator.validate(human, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "/human/editHuman";

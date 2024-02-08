@@ -29,22 +29,30 @@ public class HumanDAO {
         return session.createQuery("select h from Human h", Human.class).getResultList();
     }
 
+    @Transactional(readOnly = false)
     public void add(Human human) {
 //        jdbcTemplate.update("INSERT INTO Human(fio, year_of_birth) VALUES(?, ?)", human.getFio(), human.getYear_of_birth());
-        return;
+        Session session = sessionFactory.getCurrentSession();
+        session.save(human);
     }
 
+    @Transactional(readOnly = true)
     public Human getHuman(int id) {
 //        return jdbcTemplate.query("SELECT * FROM Human WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Human.class)).stream().findAny().orElse(null);
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Human.class, id);
     }
 
+    @Transactional(readOnly = false)
     public void update(Human human, int id) {
 //        jdbcTemplate.update("UPDATE Human SET fio=?, year_of_birth=? WHERE id=?", human.getFio(), human.getYear_of_birth(), id);
+        Session session = sessionFactory.getCurrentSession();
+        session.createQuery("update Human set fio=:fio, year_of_birth=:year_of_birth where id=:id").setParameter("fio", human.getFio()).setParameter("year_of_birth", human.getYear_of_birth()).setParameter("id", id).executeUpdate();
     }
-
+    @Transactional(readOnly = true)
     public Optional<Human> getHuman(String fio) {
 //        return jdbcTemplate.query("SELECT * FROM Human WHERE fio=?", new Object[]{fio}, new BeanPropertyRowMapper<>(Human.class)).stream().findAny();
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("select h from Human h where h.fio=fio", Human.class).uniqueResultOptional();
     }
 }

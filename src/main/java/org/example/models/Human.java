@@ -14,7 +14,7 @@ public class Human {
 
     @Column(name = "fio")
     @NotEmpty(message = "FIO should be not empty")
-    @Pattern(regexp = "^[А-ЯЁA-Z][а-яёa-z]+\\s[А-ЯЁA-Z][а-яёa-z]+\\s[А-ЯЁA-Z][а-яёa-z]+$", message = "FIO is Surname Name Patronymic")
+//    @Pattern(regexp = "^[А-ЯЁA-Z][а-яёa-z]+\\s[А-ЯЁA-Z][а-яёa-z]+\\s[А-ЯЁA-Z][а-яёa-z]+$", message = "FIO is Surname Name Patronymic")
     private String fio;
 
     @Column(name = "year_of_birth")
