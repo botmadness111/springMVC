@@ -1,8 +1,9 @@
 package org.example.controllers;
 
 import jakarta.validation.Valid;
-import org.example.dao.PersonDAO;
 import org.example.models.Person;
+import org.example.repositories.PersonRepository;
+import org.example.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,22 +14,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/people")
 public class PersonController {
 
-    PersonDAO personDAO;
+    PersonService personService;
 
     @Autowired
-    public PersonController(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
     @GetMapping
     public String getPeoplePage(Model model) {
-        model.addAttribute("people", personDAO.getPeople());
+        model.addAttribute("people", personService.getPeople());
         return "/person/people";
     }
 
     @GetMapping("/{id}")
     public String getPersonPage(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", personDAO.getPersonById(id));
+        model.addAttribute("person", personService.getPersonById(id));
         return "/person/person";
     }
 
@@ -44,27 +45,27 @@ public class PersonController {
             return "/person/addNewPerson";
         }
 
-        personDAO.addNewPerson(person);
+        personService.addNewPerson(person);
         return "redirect:/people";
     }
 
     @GetMapping("/edit/{id}")
     public String getEditPersonPage(@PathVariable("id") int id, Model model) {
 
-        model.addAttribute(personDAO.getPersonById(id));
+        model.addAttribute(personService.getPersonById(id));
 
         return "/person/editPerson";
     }
 
     @PatchMapping("/{id}")
     public String updatePersonById(@PathVariable("id") int id, @ModelAttribute Person person) {
-        personDAO.updatePersonById(id, person);
+        personService.updatePersonById(id, person);
         return "redirect:/people";
     }
 
     @DeleteMapping("/{id}")
     public String deletePersonById(@PathVariable("id") int id) {
-        personDAO.deletePersonById(id);
+        personService.deletePersonById(id);
 
         return "redirect:/people";
     }
