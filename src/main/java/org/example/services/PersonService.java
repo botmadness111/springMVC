@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +30,7 @@ public class PersonService {
 
     @Transactional
     public void addNewPerson(Person person) {
+        person.setCreated_at(new Date());
         personRepository.save(person);
     }
 

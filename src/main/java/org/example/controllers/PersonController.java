@@ -11,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 @Controller
 @RequestMapping("/people")
 public class PersonController {
@@ -27,10 +30,6 @@ public class PersonController {
     @GetMapping
     public String getPeoplePage(Model model) {
         model.addAttribute("people", personService.getPeople());
-
-        itemService.findByNameLike("%Bob");
-        itemService.findByOwner(personService.findByNameOrMail("ASDfsd", "vasya@mail.ru").get(0));
-
 
         return "/person/people";
     }
