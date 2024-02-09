@@ -52,4 +52,5 @@ public class PersonService {
     public List<Person> findByNameOrMail(String name, String mail) {
         return personRepository.findByNameOrMail(name, mail);
     }
+
 }

@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import jakarta.validation.Valid;
+import org.example.dao.PersonDAO;
 import org.example.models.Person;
 import org.example.repositories.PersonRepository;
 import org.example.services.ItemService;
@@ -21,15 +22,20 @@ public class PersonController {
     PersonService personService;
     ItemService itemService;
 
+    PersonDAO personDAO;
+
     @Autowired
-    public PersonController(PersonService personService, ItemService itemService) {
+    public PersonController(PersonService personService, ItemService itemService, PersonDAO personDAO) {
         this.personService = personService;
         this.itemService = itemService;
+        this.personDAO = personDAO;
     }
 
     @GetMapping
     public String getPeoplePage(Model model) {
         model.addAttribute("people", personService.getPeople());
+
+        personDAO.testNPlus1Optimized();
 
         return "/person/people";
     }
