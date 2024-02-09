@@ -42,4 +42,12 @@ public class PersonService {
     public void deletePersonById(int id) {
         personRepository.deleteById(id);
     }
+
+    public List<Person> findByAgeGreaterThan(int age) {
+        return personRepository.findByAgeGreaterThan(age);
+    }
+
+    public List<Person> findByNameOrMail(String name, String mail) {
+        return personRepository.findByNameOrMail(name, mail);
+    }
 }

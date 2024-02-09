@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
 @Entity
 @Table(name = "person")
 public class Person {
@@ -25,6 +27,8 @@ public class Person {
     @Column(name = "mail")
     @Email(message = "email should be valid")
     private String mail;
+    @OneToMany(mappedBy = "owner")
+    private List<Item> items;
 
     public Person(int id, String name, String surName, String mail, Integer age) {
         this.id = id;
@@ -76,5 +80,20 @@ public class Person {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package org.example.repositories;
 
+import org.example.models.Item;
 import org.example.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -7,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Integer> {
-    public List<Person> findByAgeGreaterThan(int age);
+public interface ItemRepository extends JpaRepository<Item, Integer> {
+    public List<Item> findByNameLike(String name);
 
-    public List<Person> findByNameOrMail(String name, String mail);
+    public List<Item> findByOwner(Person owner);
 }

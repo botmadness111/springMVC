@@ -3,6 +3,7 @@ package org.example.controllers;
 import jakarta.validation.Valid;
 import org.example.models.Person;
 import org.example.repositories.PersonRepository;
+import org.example.services.ItemService;
 import org.example.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,15 +16,22 @@ import org.springframework.web.bind.annotation.*;
 public class PersonController {
 
     PersonService personService;
+    ItemService itemService;
 
     @Autowired
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, ItemService itemService) {
         this.personService = personService;
+        this.itemService = itemService;
     }
 
     @GetMapping
     public String getPeoplePage(Model model) {
         model.addAttribute("people", personService.getPeople());
+
+        itemService.findByNameLike("%Bob");
+        itemService.findByOwner(personService.findByNameOrMail("ASDfsd", "vasya@mail.ru").get(0));
+
+
         return "/person/people";
     }
 
