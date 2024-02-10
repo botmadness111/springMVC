@@ -6,10 +6,10 @@
 </head>
 <body>
 
-<div th:object="${book}" th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear_of_release()}"></div>
-<div th:object="${book}" th:if="${book.getId_human() == null}" th:text="${'No one has taken the book yet'}"></div>
+<div th:object="${book}" th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYearOfRelease()}"></div>
+<div th:object="${book}" th:if="${book.owner == null}" th:text="${'No one has taken the book yet'}"></div>
 
-<form th:if="${book.getId_human() == null}" th:method="PATCH" th:action="@{/book/setHuman/{id}(id=${book.getId()})}"
+<form th:if="${book.owner == null}" th:method="PATCH" th:action="@{/book/setHuman/{id}(id=${book.getId()})}"
       th:object="${book}">
     <label for="human">Select human: </label>
     <select id="human" th:object="${human}" th:field="${human.id}">
@@ -19,8 +19,8 @@
     <input type="submit" value="Send book!"/>
 </form>
 
-<div th:if="${book.getId_human() != null}" th:object="${human}" th:text="${'The book is now at: ' + human.getFio()}"></div>
-<form th:if="${book.getId_human() != null}" th:method="PATCH" th:action="@{/book/release/{id}(id=${book.getId()})}" th:object="${book}">
+<div th:if="${book.owner != null}" th:object="${human}" th:text="${'The book is now at: ' + human.getFio()}"></div>
+<form th:if="${book.owner != null}" th:method="PATCH" th:action="@{/book/release/{id}(id=${book.getId()})}" th:object="${book}">
     <input type="submit" value="Release the book"/>
 </form>
 <hr/>

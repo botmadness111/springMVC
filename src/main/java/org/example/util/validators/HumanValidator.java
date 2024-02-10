@@ -1,7 +1,8 @@
 package org.example.util.validators;
 
-import org.example.dao.HumanDAO;
+
 import org.example.models.Human;
+import org.example.services.HumanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -10,11 +11,11 @@ import org.springframework.validation.Validator;
 @Component
 public class HumanValidator implements Validator {
 
-    HumanDAO humanDAO;
+    HumanService humanService;
 
     @Autowired
-    public HumanValidator(HumanDAO humanDAO) {
-        this.humanDAO = humanDAO;
+    public HumanValidator(HumanService humanService) {
+        this.humanService = humanService;
     }
 
     @Override
@@ -26,7 +27,7 @@ public class HumanValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Human human = (Human) target;
 
-        if (humanDAO.getHuman(human.getFio()).isPresent()) {
+        if (humanService.getHuman(human.getFio()).isPresent()) {
             errors.rejectValue("fio", "", "FIO should be UNIQUE!");
         }
     }

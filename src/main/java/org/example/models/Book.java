@@ -1,28 +1,46 @@
 package org.example.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.Date;
+
+@Entity
+@Table(name = "book")
 public class Book {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+    @Column(name = "name")
     @NotEmpty(message = "Name should be not Empty")
     private String name;
 
+    @Column(name = "author")
     @NotEmpty(message = "Author should be not Empty")
     private String author;
 
+    @Column(name = "yearOfRelease")
     @NotNull(message = "Year of release should be not Empty")
-    private Integer year_of_release;
+    private Integer yearOfRelease;
 
-    private Integer id_human;
+    @ManyToOne
+    @JoinColumn(name = "id_human", referencedColumnName = "id")
+    private Human owner;
 
-    public Book(String name, String author, Integer year_of_release) {
+    @Column(name = "data_of_taken")
+    private java.util.Date data_of_taken;
+
+    @Transient
+    private Boolean isOverdue;
+
+    public Book(String name, String author, Integer yearOfRelease) {
         this.name = name;
         this.author = author;
-        this.year_of_release = year_of_release;
+        this.yearOfRelease = yearOfRelease;
     }
 
     public Book() {
@@ -44,14 +62,6 @@ public class Book {
         this.author = author;
     }
 
-    public Integer getYear_of_release() {
-        return year_of_release;
-    }
-
-    public void setYear_of_release(Integer year_of_release) {
-        this.year_of_release = year_of_release;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -60,11 +70,35 @@ public class Book {
         this.id = id;
     }
 
-    public Integer getId_human() {
-        return id_human;
+    public Human getOwner() {
+        return owner;
     }
 
-    public void setId_human(Integer id_human) {
-        this.id_human = id_human;
+    public Integer getYearOfRelease() {
+        return yearOfRelease;
+    }
+
+    public void setYearOfRelease(Integer yearOfRelease) {
+        this.yearOfRelease = yearOfRelease;
+    }
+
+    public void setOwner(Human owner) {
+        this.owner = owner;
+    }
+
+    public java.util.Date getData_of_taken() {
+        return data_of_taken;
+    }
+
+    public void setData_of_taken(Date data_of_taken) {
+        this.data_of_taken = data_of_taken;
+    }
+
+    public Boolean getOverdue() {
+        return isOverdue;
+    }
+
+    public void setOverdue(Boolean overdue) {
+        isOverdue = overdue;
     }
 }

@@ -1,8 +1,8 @@
 package org.example.controllers;
 
 import jakarta.validation.Valid;
-import org.example.dao.HumanDAO;
 import org.example.models.Human;
+import org.example.services.HumanService;
 import org.example.util.validators.HumanValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/human")
 public class HumanController {
 
-    HumanDAO humanDAO;
+    HumanService humanService;
     HumanValidator humanValidator;
 
     @Autowired
-    public HumanController(HumanDAO humanDAO, HumanValidator humanValidator) {
-        this.humanDAO = humanDAO;
+    public HumanController(HumanService humanService, HumanValidator humanValidator) {
+        this.humanService = humanService;
         this.humanValidator = humanValidator;
     }
 
     @GetMapping("/all")
     public String getPeoplePage(Model model) {
-        model.addAttribute("people", humanDAO.getPeople());
+        model.addAttribute("people", humanService.getPeople());
 
         return "/human/people";
     }
@@ -45,14 +45,14 @@ public class HumanController {
             return "/human/addHuman";
         }
 
-        humanDAO.add(human);
+        humanService.add(human);
 
         return "redirect:/human/all";
     }
 
     @GetMapping("/edit/{id}")
     public String getUpdatePage(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("human", humanDAO.getHuman(id));
+        model.addAttribute("human", humanService.getHuman(id));
 
         return "/human/editHuman";
     }
@@ -65,14 +65,14 @@ public class HumanController {
             return "/human/editHuman";
         }
 
-        humanDAO.update(human, id);
+        humanService.update(human, id);
 
         return "redirect:/human/all";
     }
 
     @GetMapping("/{id}")
     public String getHumanPage(Model model, @PathVariable("id") int id) {
-        model.addAttribute("human", humanDAO.getHuman(id));
+        model.addAttribute("human", humanService.getHuman(id));
 
         return "/human/human";
     }

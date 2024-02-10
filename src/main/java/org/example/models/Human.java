@@ -1,20 +1,32 @@
 package org.example.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.List;
+
+@Entity
+@Table(name = "human")
 public class Human {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+    @Column(name="fio")
     @NotEmpty(message = "FIO should be not empty")
     @Pattern(regexp = "^[А-ЯЁA-Z][а-яёa-z]+\\s[А-ЯЁA-Z][а-яёa-z]+\\s[А-ЯЁA-Z][а-яёa-z]+$", message = "FIO is Surname Name Patronymic")
     private String fio;
 
+    @Column(name = "year_of_birth")
     @Min(value = 1900, message = "Year of birth should be between 1900 and 2024")
     @Max(value = 2024, message = "Year of birth should be between 1900 and 2024")
     @NotNull(message = "Year of birth should be not empty")
     private Integer year_of_birth;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
 
     public Human() {
     }
@@ -46,5 +58,13 @@ public class Human {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }
